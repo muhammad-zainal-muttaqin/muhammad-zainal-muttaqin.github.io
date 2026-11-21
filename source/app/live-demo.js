@@ -4,10 +4,10 @@ import { useCallback, useRef, useState } from "react";
 const ORT_VER = "1.20.1";
 const ORT_CDN = `https://cdn.jsdelivr.net/npm/onnxruntime-web@${ORT_VER}/dist/`;
 const BASE = process.env.NEXT_PUBLIC_BASE_PATH || "";
-const MODEL_URL = `${BASE}/models/sawit-yolov8n.onnx`;
-const NAMES = ["Abnormal", "Flower", "Ripe", "Underripe", "Unripe"];
-const COLORS = { Ripe: "#e8590c", Underripe: "#f59f00", Unripe: "#37b24d", Flower: "#ae3ec9", Abnormal: "#868e96", Bunch: "#e8590c" };
-const SAMPLES = [1, 2, 3, 4, 5].map((i) => ({ src: `${BASE}/samples/palm-${i}.jpg`, thumb: `${BASE}/samples/palm-${i}-thumb.jpg` }));
+const MODEL_URL = `${BASE}/models/ffb-detector-yolo26n.onnx`;
+const NAMES = ["B1", "B2", "B3", "B4"]; // SawitMVC ripeness grades, B1 ripe -> B4 unripe
+const COLORS = { B1: "#d9480f", B2: "#f08c00", B3: "#74b816", B4: "#2b8a3e", Bunch: "#d9480f" };
+const SAMPLES = [5, 4, 1, 2, 3].map((i) => ({ src: `${BASE}/samples/palm-${i}.jpg`, thumb: `${BASE}/samples/palm-${i}-thumb.jpg` }));
 const S = 640;
 
 let sessionPromise = null;
@@ -24,7 +24,7 @@ function loadScript(src) {
 async function fetchWithProgress(url, onProgress) {
   const res = await fetch(url);
   if (!res.ok) throw new Error(`Model download failed (${res.status})`);
-  const total = Number(res.headers.get("content-length")) || 12_268_875;
+  const total = Number(res.headers.get("content-length")) || 9_795_447;
   const reader = res.body.getReader();
   const chunks = []; let got = 0;
   for (;;) {
@@ -110,7 +110,7 @@ export default function LiveDemo() {
   const [imgSrc, setImgSrc] = useState(SAMPLES[0].src);
   const [result, setResult] = useState(null);
   const [conf, setConf] = useState(0.3);
-  const [agnostic, setAgnostic] = useState(true);
+  const [agnostic, setAgnostic] = useState(false);
   const [drag, setDrag] = useState(false);
   const imgRef = useRef(null);
   const fileRef = useRef(null);
@@ -157,7 +157,7 @@ export default function LiveDemo() {
         )}
         {status === "idle" && (
           <button className="cta-run" onClick={() => { setStatus("loading"); run(); }}>
-            Run the model on this photo (12 MB download)
+            Run the model on this photo (10 MB download)
           </button>
         )}
         {status === "loading" && <div className="veil">{progress < 1 ? `Downloading model… ${Math.round(progress * 100)}%` : "Loading model…"}<i style={{ width: `${progress * 100}%` }} /></div>}
@@ -175,8 +175,8 @@ export default function LiveDemo() {
         </div>
         <div className="controls">
           <div className="seg" role="group" aria-label="Mode">
+            <button className={!agnostic ? "on" : ""} onClick={() => setAgnostic(false)}>Ripeness B1–B4</button>
             <button className={agnostic ? "on" : ""} onClick={() => setAgnostic(true)}>Detection only</button>
-            <button className={!agnostic ? "on" : ""} onClick={() => setAgnostic(false)}>Ripeness (unreliable here)</button>
           </div>
           <label className="slider">Confidence ≥ {conf.toFixed(2)}
             <input type="range" min="0.1" max="0.9" step="0.05" value={conf} onChange={(e) => setConf(Number(e.target.value))} />
@@ -194,7 +194,7 @@ export default function LiveDemo() {
         </div>
         {error && <p className="err">{error}</p>}
         <p className="muted small">
-          {!agnostic && <>The ripeness labels are wrong on these photos: clearly ripe red bunches come out as Underripe. The model was trained on different field data and has not been retrained yet.<br /><br /></>}
+          {!agnostic && <>B1 is ripe, B4 is unripe (SawitMVC grading). Telling neighbouring grades apart is harder than finding the bunch, so B1/B2 and B2/B3 mix-ups still happen.<br /><br /></>}
           Runs locally with WebGPU, or WebAssembly where WebGPU is not available. Uploaded photos are not sent anywhere.
           You can also drag a photo onto the image.
         </p>

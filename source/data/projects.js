@@ -8,7 +8,7 @@ export const featured = [
     year: "2026",
     context: "Personal project",
     thumb: "sawit-api.jpg",
-    text: "A REST service around my ripeness detector. I exported the YOLOv8n model to ONNX and rewrote the pre- and post-processing in NumPy so it runs without PyTorch; every request is logged to SQLite. It scores 0.771 mAP@50 on validation and takes 23 ms per image on an M1 with CoreML. On 568 new field photos it misses small bunches in shots taken from far away and labels clearly ripe bunches as underripe; the README documents both.",
+    text: "A REST service for fruit bunch detection. It serves our lab's YOLO26n detector (trained on SawitMVC, ripeness grades B1–B4) through ONNX Runtime, with pre- and post-processing rewritten in NumPy so it runs without PyTorch; every request is logged to SQLite. I compared it with an older YOLOv8n model on 568 new field photos: it put 2 boxes on ground or trunk where the old model put 216, and it grades ripe red bunches as B1 where the old one called them underripe.",
     stack: "Python, ONNX Runtime, FastAPI, SQLite, pytest, Docker",
     links: [{ label: "code", href: `${GH}/sawit-vision-api` }, { label: "demo above", href: "#demo" }],
   },

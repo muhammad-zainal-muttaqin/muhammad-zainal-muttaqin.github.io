@@ -17,10 +17,9 @@ export default function Home() {
       <section id="demo" className="wide">
         <h2>Fruit bunch detector</h2>
         <p>
-          This is the model from my <a href="https://github.com/muhammad-zainal-muttaqin/sawit-vision-api" target="_blank" rel="noreferrer">detection API</a>,
-          running in your browser with ONNX Runtime Web. The photos are from a field capture in November 2026 that the model never saw during training.
-          It finds most bunches close to the camera, misses small ones near the top of the crown,
-          and its ripeness labels are off on this data (ripe red bunches get called Underripe), so detection only is the default.
+          This is the YOLO26n detector our lab ships in the PalmAnnotate field app, trained on the SawitMVC dataset (953 trees, 3,992 photos),
+          running in your browser with ONNX Runtime Web. The photos are from a field capture in November 2026 that it was not trained on.
+          It grades each bunch from B1 (ripe) to B4 (unripe).
         </p>
         <LiveDemo />
       </section>
