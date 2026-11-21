@@ -110,7 +110,7 @@ export default function LiveDemo() {
   const [imgSrc, setImgSrc] = useState(SAMPLES[0].src);
   const [result, setResult] = useState(null);
   const [conf, setConf] = useState(0.3);
-  const [agnostic, setAgnostic] = useState(false);
+  const [agnostic, setAgnostic] = useState(true);
   const [drag, setDrag] = useState(false);
   const imgRef = useRef(null);
   const fileRef = useRef(null);
@@ -175,8 +175,8 @@ export default function LiveDemo() {
         </div>
         <div className="controls">
           <div className="seg" role="group" aria-label="Mode">
-            <button className={!agnostic ? "on" : ""} onClick={() => setAgnostic(false)}>Ripeness classes</button>
             <button className={agnostic ? "on" : ""} onClick={() => setAgnostic(true)}>Detection only</button>
+            <button className={!agnostic ? "on" : ""} onClick={() => setAgnostic(false)}>Ripeness (unreliable here)</button>
           </div>
           <label className="slider">Confidence ≥ {conf.toFixed(2)}
             <input type="range" min="0.1" max="0.9" step="0.05" value={conf} onChange={(e) => setConf(Number(e.target.value))} />
@@ -194,6 +194,7 @@ export default function LiveDemo() {
         </div>
         {error && <p className="err">{error}</p>}
         <p className="muted small">
+          {!agnostic && <>The ripeness labels are wrong on these photos: clearly ripe red bunches come out as Underripe. The model was trained on different field data and has not been retrained yet.<br /><br /></>}
           Runs locally with WebGPU, or WebAssembly where WebGPU is not available. Uploaded photos are not sent anywhere.
           You can also drag a photo onto the image.
         </p>

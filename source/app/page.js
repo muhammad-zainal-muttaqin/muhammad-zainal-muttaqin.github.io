@@ -19,7 +19,8 @@ export default function Home() {
         <p>
           This is the model from my <a href="https://github.com/muhammad-zainal-muttaqin/sawit-vision-api" target="_blank" rel="noreferrer">detection API</a>,
           running in your browser with ONNX Runtime Web. The photos are from a field capture in November 2026 that the model never saw during training.
-          It does well on bunches close to the camera and still misses small ones near the top of the crown.
+          It finds most bunches close to the camera, misses small ones near the top of the crown,
+          and its ripeness labels are off on this data (ripe red bunches get called Underripe), so detection only is the default.
         </p>
         <LiveDemo />
       </section>
