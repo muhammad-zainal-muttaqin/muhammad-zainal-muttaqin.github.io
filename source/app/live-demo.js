@@ -157,18 +157,18 @@ export default function LiveDemo() {
         )}
         {status === "idle" && (
           <button className="cta-run" onClick={() => { setStatus("loading"); run(); }}>
-            <span className="pulse" /> Run the detector on this photo
+            Run the model on this photo (12 MB download)
           </button>
         )}
-        {status === "loading" && <div className="veil">{progress < 1 ? `Downloading the model to your browser… ${Math.round(progress * 100)}%` : "Warming up the model…"}<i style={{ width: `${progress * 100}%` }} /></div>}
+        {status === "loading" && <div className="veil">{progress < 1 ? `Downloading model… ${Math.round(progress * 100)}%` : "Loading model…"}<i style={{ width: `${progress * 100}%` }} /></div>}
         {status === "running" && <div className="veil">Detecting…</div>}
-        {drag && <div className="veil">Drop the photo to detect</div>}
+        {drag && <div className="veil">Drop to run</div>}
       </div>
 
       <div className="panel">
         <div className="readout">
-          <div><b>{result ? dets.length : "–"}</b><span>bunches found</span></div>
-          <div><b>{result ? `${Math.round(result.ms)} ms` : "–"}</b><span>on your device ({result ? result.backend : "WebGPU / WASM"})</span></div>
+          <div><b>{result ? dets.length : "–"}</b><span>bunches detected</span></div>
+          <div><b>{result ? `${Math.round(result.ms)} ms` : "–"}</b><span>inference time{result ? `, ${result.backend}` : ""}</span></div>
         </div>
         <div className="chips">
           {Object.entries(counts).map(([k, v]) => <span key={k} style={{ borderColor: COLORS[k], color: COLORS[k] }}>{k} × {v}</span>)}
@@ -182,20 +182,20 @@ export default function LiveDemo() {
             <input type="range" min="0.1" max="0.9" step="0.05" value={conf} onChange={(e) => setConf(Number(e.target.value))} />
           </label>
         </div>
-        <p className="muted small">Try another tree:</p>
+        <p className="small">Other trees</p>
         <div className="thumbs">
           {SAMPLES.map((s) => (
             <button key={s.src} className={imgSrc === s.src ? "on" : ""} onClick={() => pick(s.src)} aria-label="Sample palm photo">
               <img src={s.thumb} alt="" />
             </button>
           ))}
-          <button className="upload" onClick={() => fileRef.current.click()}>＋<span>Your photo</span></button>
+          <button className="upload" onClick={() => fileRef.current.click()}>Upload</button>
           <input ref={fileRef} type="file" accept="image/*" hidden onChange={(e) => onFile(e.target.files[0])} />
         </div>
         {error && <p className="err">{error}</p>}
         <p className="muted small">
-          YOLOv8n trained on my plantation dataset, exported to ONNX and run here with ONNX Runtime Web (WebGPU when your browser has it, otherwise WebAssembly). No server: your photo never leaves this page.
-          Sample photos: Damimas block, field capture Nov 2026.
+          Runs locally with WebGPU, or WebAssembly where WebGPU is not available. Uploaded photos are not sent anywhere.
+          You can also drag a photo onto the image.
         </p>
       </div>
     </div>
