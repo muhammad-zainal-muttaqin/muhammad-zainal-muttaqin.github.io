@@ -42,7 +42,7 @@ export default function Home() {
             <a href="#about">About</a>
           </nav>
           <ThemeToggle />
-          <a className="btn" href="#contact">Get in touch</a>
+          <a className="btn" href={`${BASE}/cv/Muhammad-Zainal-Muttaqin-CV.pdf`} target="_blank" rel="noreferrer">CV (PDF)</a>
         </div>
       </header>
 
@@ -65,6 +65,7 @@ export default function Home() {
                 <a className="btn" href="#demo">Try the detector</a>
                 <Ext className="btn ghost" href={links.linkedin}>LinkedIn</Ext>
                 <Ext className="btn ghost" href={links.github}>GitHub</Ext>
+                <a className="btn ghost" href={`${BASE}/cv/Muhammad-Zainal-Muttaqin-CV.pdf`} target="_blank" rel="noreferrer">CV</a>
                 <Ext className="btn ghost" href={links.scholar}>Scholar</Ext>
               </div>
               <div className="proof">
@@ -243,10 +244,14 @@ export default function Home() {
           <span className="label">Contact</span>
           <h2>Hiring for computer vision, ML or data work? I’d like to hear about it.</h2>
           <div className="ctas">
-            <Ext className="btn" href={links.linkedin}>Message me on LinkedIn</Ext>
+            <a className="btn" href={`mailto:${links.email}`}>Email me</a>
+            <Ext className="btn ghost" href={links.linkedin}>LinkedIn</Ext>
+            <a className="btn ghost" href={`${BASE}/cv/Muhammad-Zainal-Muttaqin-CV.pdf`} target="_blank" rel="noreferrer">Download CV</a>
             <Ext className="btn ghost" href={links.github}>GitHub</Ext>
-            <Ext className="btn ghost" href={links.scholar}>Google Scholar</Ext>
           </div>
+          <p className="reach">
+            Or write to <a href={`mailto:${links.email}`}>{links.email}</a>. My phone number is on the CV.
+          </p>
           <p className="fine">
             Site source on <Ext href={links.source}>GitHub</Ext>. Field photos from the Damimas block, shared with permission.
           </p>

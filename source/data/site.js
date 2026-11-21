@@ -3,6 +3,7 @@ export const links = {
   linkedin: "https://www.linkedin.com/in/muhammad-zainal-muttaqin",
   scholar: "https://scholar.google.com/citations?user=xDs3c9wAAAAJ",
   source: "https://github.com/muhammad-zainal-muttaqin/muhammad-zainal-muttaqin.github.io",
+  email: "mz.muttaqin1@gmail.com",
   dataset: "https://huggingface.co/datasets/ULM-DS-Lab/SawitMVC",
   api: "https://github.com/muhammad-zainal-muttaqin/sawit-vision-api",
 };

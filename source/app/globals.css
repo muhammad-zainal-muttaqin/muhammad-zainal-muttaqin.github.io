@@ -274,6 +274,7 @@ details.archive[open] summary span::after { content: "  –"; }
 /* Footer */
 footer { padding: var(--s9) 0 var(--s7); border-top: 1px solid var(--rule); }
 footer h2 { font-size: clamp(30px, 4vw, 48px); line-height: 1.1; max-width: 20ch; margin-top: var(--s4); }
+footer .reach { margin: var(--s5) 0 0; color: var(--ink-2); }
 footer .fine { margin-top: var(--s8); }
 
 @media (prefers-reduced-motion: reduce) {
